@@ -15,6 +15,10 @@ public class LineaDetalle {
 		this.producto = producto;
 	}
 	
+	public int calcularSubtotal() {
+		return cantidad * producto.getPrecio();
+	}
+	
 	public int getCantidad() {
 		return cantidad;
 	}

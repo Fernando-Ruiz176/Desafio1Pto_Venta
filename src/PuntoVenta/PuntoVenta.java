@@ -14,6 +14,12 @@ public class PuntoVenta {
 	public final static int OPCION_MENU_ELIMINAR     = 3;
 	public final static int OPCION_MENU_PRODUCTOS    = 2;
 	public final static int OPCION_MENU_CREAR 	     = 1;
+	
+	
+	
+//Quede en la pagina 224////Quede en la pagina 224////Quede en la pagina 224//
+	
+	
 
 	public static void main(String[] args) {
 		int opcionSeleccionada;
@@ -45,6 +51,15 @@ public class PuntoVenta {
 		System.out.printf("Selecciono la opcion %d", opcionSeleccionada);
 	}
 	
+	private static void reporteVentas() {
+		System.out.println("Ventas\n*****************\n");
+		System.out.println("Fecha \t Monto");
+		for(Venta venta: ventas) {
+			System.out.printf("&s \t %d", venta.getFecha(), venta.calcularTotal());
+		}
+		System.out.printf("%n%n");
+	}
+	
 	private static void crearProducto() {
 		Scanner scanner = new Scanner(System.in);
 		
@@ -62,7 +77,7 @@ public class PuntoVenta {
 	}
 
 	private static void verProductos() {
-		System.out.println("\nProductos\n===========================\n");
+		System.out.println("\n==========Productos:\n============\n");
 		
 		for(Producto producto : productos ) {
 			System.out.printf("Código: %s Producto: %s Precio: %d %n"
@@ -113,7 +128,7 @@ public class PuntoVenta {
 			int cantidad = scanner.nextInt();
 			
 			LineaDetalle lineaDetalle = new LineaDetalle(cantidad, producto);
-			venta.agregarLineaDetalle(lineaDetalle);
+			venta.agregarLineasDetalle(lineaDetalle);
 			
 			System.out.println("Desea agregar mas productos al carro: [si/no]");
 			String seguirAgregandoProductosStr =scanner.next();
