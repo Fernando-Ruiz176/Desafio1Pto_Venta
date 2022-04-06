@@ -7,30 +7,30 @@ import java.time.LocalDateTime;
 
 public class Venta {
 
-	private LocalDateTime fecha = LocalDateTime();
-	private ArrayList<LineaDetalle> lineasDetalle = new ArrayList<>();
+	private LocalDateTime fecha = LocalDateTime.now();
+	private ArrayList<LineaDetalle> lineaDetalle = new ArrayList<>();
 
 
 	public Venta() {
 	
 	}
 	
-	public Venta(LocalDateTime fecha, ArrayList<LineaDetalle> lineaDetalle) {
+	public Venta(LocalDateTime fecha, ArrayList<LineaDetalle> lineasDetalle) {
 		this.fecha = fecha;
-		this.lineasDetalle = lineaDetalle;
+		this.lineasDetalle = lineasDetalle;
 	}
 	
-	public void agregarLineaDetalle(lineaDetalle lineaDetalle) {
+	public void agregarLineaDetalle( LineaDetalle lineaDetalle) {
 		this.lineasDetalle.add(lineaDetalle);
 	}
 	
-		public int calcularTotal() {
-			int total = 0
-			for (LineaDetalle lineaDetalle : lineasDetalle) {
-				total = total + lineaDetalle.calcularSubtotal();				
-			}
-			return total;
+	public int calcularTotal() {
+		int total = 0;
+		for (LineaDetalle lineaDetalle : lineasDetalle) {
+			total = total + lineaDetalle.calcularSubtotal();				
 		}
+		return total;
+	}
 	
 	public LocalDateTime getFecha() {
 		return fecha;
@@ -52,10 +52,9 @@ public class Venta {
 	
 	
 	// Esta linea tambien es nueva
-	public void calcularTotal( calcularTotal calcularTotal) {
-		// TODO Auto-generated method stub
+	/*public void calcularTotal( calcularTotal calcularTotal) {
 		return null;
-	}
+	}*/
 	
 	
 }

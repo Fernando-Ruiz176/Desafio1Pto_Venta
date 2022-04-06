@@ -8,19 +8,14 @@ public class PuntoVenta {
 	private static ArrayList<Producto> productos = new ArrayList<Producto>();
 	private static ArrayList<Venta> ventas = new ArrayList<Venta>();
 	
-	public final static int OPCION_MENU_SALIR        = 6;
-	public final static int OPCION_MENU_PAGAR        = 5;
-	public final static int OPCION_MENU_CARRO        = 4;
-	public final static int OPCION_MENU_ELIMINAR     = 3;
-	public final static int OPCION_MENU_PRODUCTOS    = 2;
-	public final static int OPCION_MENU_CREAR 	     = 1;
+	public final static int OPCION_MENU_SALIR               = 7;
+	public final static int OPCION_MENU_CARGA_PRODUCTOS     = 6; 
+	public final static int OPCION_MENU_PAGAR        		= 5;
+	public final static int OPCION_MENU_CARRO        		= 4;
+	public final static int OPCION_MENU_ELIMINAR    		= 3;
+	public final static int OPCION_MENU_PRODUCTOS    		= 2;
+	public final static int OPCION_MENU_CREAR 	     		= 1;
 	
-	
-	
-//Quede en la pagina 224////Quede en la pagina 224////Quede en la pagina 224//
-	
-	
-
 	public static void main(String[] args) {
 		int opcionSeleccionada;
 		do {
@@ -45,6 +40,10 @@ public class PuntoVenta {
 				case OPCION_MENU_PAGAR:
 					pagar();
 					break;
+					
+				case OPCION_MENU_CARGA_PRODUCTOS:
+					cargarProductosIniciales();
+					break;
 			
 			}
 		} while ( opcionSeleccionada != OPCION_MENU_SALIR);
@@ -52,10 +51,14 @@ public class PuntoVenta {
 	}
 	
 	private static void reporteVentas() {
-		System.out.println("Ventas\n*****************\n");
+		System.out.println("\n\nVentas\n*****************\n");
 		System.out.println("Fecha \t Monto");
+		
+		
 		for(Venta venta: ventas) {
-			System.out.printf("&s \t %d", venta.getFecha(), venta.calcularTotal());
+			System.out.printf("%s \t %d", venta.getFecha(), venta.calcularTotal());
+					//"%tD %tB %tY %tH:%tM \t %d"	
+			
 		}
 		System.out.printf("%n%n");
 	}
@@ -66,10 +69,10 @@ public class PuntoVenta {
 		System.out.println("Por favor ingrese un codigo para su producto: ");
 		String codigoProducto = scanner.nextLine();
 		
-		System.out.println("Por favor ingrese un nombre para su producto: ");
+		System.out.println("Por favor ingrese un nombre para su producto:");
 		String nombreProducto = scanner.nextLine();
 		
-		System.out.println("Por favor ingrese un precio para su producto: ");
+		System.out.println("Por favor ingrese un precio para su producto:");
 		int precioProducto = scanner.nextInt();
 		
 		Producto productoNuevo = new Producto(codigoProducto, nombreProducto, precioProducto);
@@ -77,7 +80,7 @@ public class PuntoVenta {
 	}
 
 	private static void verProductos() {
-		System.out.println("\n==========Productos:\n============\n");
+		System.out.println("\nPRODUCTOS:\n==========================\n");
 		
 		for(Producto producto : productos ) {
 			System.out.printf("Código: %s Producto: %s Precio: %d %n"
@@ -89,18 +92,30 @@ public class PuntoVenta {
 		
 		System.out.println("");
 	}
+	
+	private static void cargarProductosIniciales() {
+		productos.add(new Producto("CH1", "Chicle Menta   ", 200));
+		productos.add(new Producto("CH2", "Chicle Frutilla", 250));
+		productos.add(new Producto("BC1", "Coca Cola 500ml", 800));
+	}
 
 	private static void eliminarProducto() {
 		System.out.println("Escriba el codigo del producto a eliminar:");
 		Scanner scanner = new Scanner( System.in );
 		String codigo = scanner.nextLine();
 		
-		for( Producto pto: productos ) {
-			if( pto.getCodigo().equalsIgnoreCase( codigo) ) {
-				productos.remove( pto );
-				System.out.printf("Se ha eliminado correctamente el producto: %s", pto.getNombre());		
-			} else {
-				System.out.printf("No se encontro ningun producto con el codigo %s %n%n", codigo);
+		for( int i = 0; i < productos.size(); i++ ) {
+			Producto get = productos.get(i);
+			
+			if( codigo.equals( get.getCodigo()) ) {
+		  //if(producto != null){
+				productos.remove( i );
+				
+			/*  System.out.printf("Se ha eliminado correctamente el producto: %s %n%n", producto.getNombre());
+		 } else {	
+				//System.out.printf("No se encontro ningun producto con el codigo %s %n%n", codigo);*/
+				break;	
+			
 			}
 		}
 	}
@@ -128,7 +143,7 @@ public class PuntoVenta {
 			int cantidad = scanner.nextInt();
 			
 			LineaDetalle lineaDetalle = new LineaDetalle(cantidad, producto);
-			venta.agregarLineasDetalle(lineaDetalle);
+			venta.agregarLineaDetalle(lineaDetalle);
 			
 			System.out.println("Desea agregar mas productos al carro: [si/no]");
 			String seguirAgregandoProductosStr =scanner.next();
@@ -145,7 +160,46 @@ public class PuntoVenta {
 		
 	}
 	
-	private static void pagar() {	
+	private static void actualizarProductos() {
+		boolean seguirModificandoProductos = true;
+		
+		do {
+			System.out.println ("Ingrese el codigo del producto");
+			Scanner scanner = new Scanner(System.in);
+			String codigos = scanner.nextLine();
+			Producto producto = buscarProducto( codigos );
+			
+			System.out.println("Por favor ingrese el nuevo nombre para su producto");
+			String nombreProducto = scanner.nextLine();
+			producto.setNombre( nombreProducto);
+			
+			System.out.println( "Por favor ingrese el nuevo precio para su producto");
+			int precioProducto = scanner.nextInt();
+			producto.setPrecio(precioProducto);
+			
+			System.out.println("Desea modificar mas productos al carro: [si/no]");
+			String seguirModificandoProductosStr = scanner.next();
+			
+			seguirModificandoProductos = seguirModificandoProductosStr.equalsIgnoreCase("SI")?true:false;
+			
+			
+		} while(seguirModificandoProductos);
+		
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("¿Term? SI/NO");
+		boolean productoActualizado = scanner.nextLine().equalsIgnoreCase("SI")?true:false;
+		
+	}
+	
+	private static void imprimirVentas() {
+		System.out.println("\n**************VENTAS***********\n");
+		System.out.println("==================================\n");
+		System.out.println("Fecha \t Monto");
+	}
+	
+	private static void pagar() {
+		
+		
 	}
 
 	private static int menu() {
@@ -155,7 +209,8 @@ public class PuntoVenta {
 		System.out.println("3. Eliminar Producto");
 		System.out.println("4. Agregar Productos al Carro");
 		System.out.println("5. Pagar");
-		System.out.println("6. SALIR");
+		System.out.println("6. Cargar productos iniciales");
+		System.out.println("7. SALIR");
 		
 		System.out.println("\nPor favor digite la opcion deseada: ");
 		Scanner scanner = new Scanner(System.in);
