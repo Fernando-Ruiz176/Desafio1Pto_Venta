@@ -1,18 +1,14 @@
 package PuntoVenta;
 
 import java.util.ArrayList;
-//import java.util.Calendar;
 import java.time.LocalDateTime;
-
 
 public class Venta {
 
 	private LocalDateTime fecha = LocalDateTime.now();
-	private ArrayList<LineaDetalle> lineaDetalle = new ArrayList<>();
-
-
+	private ArrayList<LineaDetalle> lineasDetalle = new ArrayList<>();
+		
 	public Venta() {
-	
 	}
 	
 	public Venta(LocalDateTime fecha, ArrayList<LineaDetalle> lineasDetalle) {
@@ -47,14 +43,5 @@ public class Venta {
 	public void setLineaDetalle(ArrayList<LineaDetalle> lineaDetalle) {
 		this.lineasDetalle = lineaDetalle;
 	}
-
-	private ArrayList<LineaDetalle> lineasDetalle = new ArrayList();
-	
-	
-	// Esta linea tambien es nueva
-	/*public void calcularTotal( calcularTotal calcularTotal) {
-		return null;
-	}*/
-	
 	
 }

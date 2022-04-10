@@ -6,8 +6,7 @@ public class Producto {
 	private String nombre;
 	private int precio;
 	
-	public Producto() {
-		
+	public Producto() {	
 	}
 
 	public Producto(String codigo, String nombre, int precio) {
@@ -28,7 +27,6 @@ public class Producto {
 		return nombre;
 	}
 
-
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
@@ -40,5 +38,4 @@ public class Producto {
 	public void setPrecio(int precio) {
 		this.precio = precio;
 	}
-
 }

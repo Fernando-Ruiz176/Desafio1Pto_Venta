@@ -5,9 +5,7 @@ public class LineaDetalle {
 	private int cantidad;
 	private Producto producto;
 	
-	
-	public LineaDetalle() {
-		
+	public LineaDetalle() {	
 	}
 	
 	public LineaDetalle(int cantidad, Producto producto) {

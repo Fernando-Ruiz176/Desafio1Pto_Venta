@@ -1,4 +1,3 @@
-
 package PuntoVenta;
 
 import java.util.Scanner;
@@ -6,23 +5,32 @@ import java.util.ArrayList;
 
 public class PuntoVenta {
 	private static ArrayList<Producto> productos = new ArrayList<Producto>();
-	private static ArrayList<Venta> ventas = new ArrayList<Venta>();
+	private static ArrayList<Venta> ventas       = new ArrayList<Venta>();
 	
-	public final static int OPCION_MENU_SALIR               = 7;
-	public final static int OPCION_MENU_CARGA_PRODUCTOS     = 6; 
-	public final static int OPCION_MENU_PAGAR        		= 5;
-	public final static int OPCION_MENU_CARRO        		= 4;
-	public final static int OPCION_MENU_ELIMINAR    		= 3;
-	public final static int OPCION_MENU_PRODUCTOS    		= 2;
-	public final static int OPCION_MENU_CREAR 	     		= 1;
+	public final static int OPCION_MENU_SALIR               = 8;
+	public final static int OPCION_MENU_VENTAS        		= 7;
+	public final static int OPCION_MENU_CARRO        		= 6;
+	public final static int OPCION_MENU_ELIMINAR    		= 5;
+	public final static int OPCION_MENU_PRODUCTOS    		= 4;
+	public final static int OPCION_MENU_ACTUALIZAR    		= 3;
+	public final static int OPCION_MENU_CREAR 	     		= 2;
+	public final static int OPCION_MENU_CARGA_PRODUCTOS     = 1;
 	
 	public static void main(String[] args) {
 		int opcionSeleccionada;
 		do {
 			opcionSeleccionada = menu();
 			switch (opcionSeleccionada) {
+				case OPCION_MENU_CARGA_PRODUCTOS:
+					cargarProductosIniciales();
+					break;
+			
 				case OPCION_MENU_CREAR:
 					crearProducto();
+					break;
+					
+				case OPCION_MENU_ACTUALIZAR:
+					actualizarProductos();
 					break;
 					
 				case OPCION_MENU_PRODUCTOS:
@@ -37,31 +45,24 @@ public class PuntoVenta {
 					agregarProductosAlCarro();
 					break;
 					
-				case OPCION_MENU_PAGAR:
-					pagar();
+				case OPCION_MENU_VENTAS:
+					reporteVentas();
 					break;
 					
-				case OPCION_MENU_CARGA_PRODUCTOS:
-					cargarProductosIniciales();
-					break;
-			
 			}
 		} while ( opcionSeleccionada != OPCION_MENU_SALIR);
 		System.out.printf("Selecciono la opcion %d", opcionSeleccionada);
 	}
 	
-	private static void reporteVentas() {
-		System.out.println("\n\nVentas\n*****************\n");
-		System.out.println("Fecha \t Monto");
-		
-		
-		for(Venta venta: ventas) {
-			System.out.printf("%s \t %d", venta.getFecha(), venta.calcularTotal());
-					//"%tD %tB %tY %tH:%tM \t %d"	
-			
-		}
-		System.out.printf("%n%n");
+	private static void cargarProductosIniciales() {
+		productos.add(new Producto("CH1", "Chicle Menta   ", 200));
+		productos.add(new Producto("CH2", "Chicle Frutilla", 250));
+		productos.add(new Producto("BC1", "Coca Cola 500ml", 800));
+		productos.add(new Producto("BC2", "Coca Cola 350ml", 620));
+		productos.add(new Producto("SO1", "Super Ocho 29gr", 270));
+		System.out.println("El listado de productos iniciales se ha cargado.\n");
 	}
+	
 	
 	private static void crearProducto() {
 		Scanner scanner = new Scanner(System.in);
@@ -77,47 +78,19 @@ public class PuntoVenta {
 		
 		Producto productoNuevo = new Producto(codigoProducto, nombreProducto, precioProducto);
 		productos.add( productoNuevo );
+		System.out.println("El nuevo producto ha sido creado\n ");
 	}
 
 	private static void verProductos() {
 		System.out.println("\nPRODUCTOS:\n==========================\n");
-		
 		for(Producto producto : productos ) {
-			System.out.printf("Código: %s Producto: %s Precio: %d %n"
+			System.out.printf("Código: %s Producto:  %s  Precio: %d %n"
 					, producto.getCodigo()
 					, producto.getNombre()
 					, producto.getPrecio()	
 			);
 		}
-		
 		System.out.println("");
-	}
-	
-	private static void cargarProductosIniciales() {
-		productos.add(new Producto("CH1", "Chicle Menta   ", 200));
-		productos.add(new Producto("CH2", "Chicle Frutilla", 250));
-		productos.add(new Producto("BC1", "Coca Cola 500ml", 800));
-	}
-
-	private static void eliminarProducto() {
-		System.out.println("Escriba el codigo del producto a eliminar:");
-		Scanner scanner = new Scanner( System.in );
-		String codigo = scanner.nextLine();
-		
-		for( int i = 0; i < productos.size(); i++ ) {
-			Producto get = productos.get(i);
-			
-			if( codigo.equals( get.getCodigo()) ) {
-		  //if(producto != null){
-				productos.remove( i );
-				
-			/*  System.out.printf("Se ha eliminado correctamente el producto: %s %n%n", producto.getNombre());
-		 } else {	
-				//System.out.printf("No se encontro ningun producto con el codigo %s %n%n", codigo);*/
-				break;	
-			
-			}
-		}
 	}
 	
 	private static Producto buscarProducto(String codigo) {
@@ -128,6 +101,22 @@ public class PuntoVenta {
 		}
 		return null;
 	}
+	
+	private static void eliminarProducto() {
+		System.out.println("Escriba el codigo del producto a eliminar:");
+		Scanner scanner = new Scanner( System.in );
+		String codigo = scanner.nextLine();
+		for( int i = 0; i < productos.size(); i++ ) {
+			Producto get = productos.get(i);
+			
+			if( codigo.equals( get.getCodigo()) ) {
+				productos.remove( i );
+				break;		
+			}
+		}
+		System.out.println("El producto se ha eliminado correctamente.\n");
+	}
+	
 	
 	private static void agregarProductosAlCarro() {	
 		Venta venta = new Venta();
@@ -157,7 +146,6 @@ public class PuntoVenta {
 		if( ventaPagada ) {
 			ventas.add( venta );
 		}
-		
 	}
 	
 	private static void actualizarProductos() {
@@ -177,40 +165,46 @@ public class PuntoVenta {
 			int precioProducto = scanner.nextInt();
 			producto.setPrecio(precioProducto);
 			
-			System.out.println("Desea modificar mas productos al carro: [si/no]");
+			System.out.println("Desea modificar mas productos: [si/no]");
 			String seguirModificandoProductosStr = scanner.next();
 			
 			seguirModificandoProductos = seguirModificandoProductosStr.equalsIgnoreCase("SI")?true:false;
-			
-			
+				
 		} while(seguirModificandoProductos);
 		
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("¿Term? SI/NO");
+		System.out.println("¿Ha terminado con la modificacion? SI/NO");
 		boolean productoActualizado = scanner.nextLine().equalsIgnoreCase("SI")?true:false;
+		System.out.println("Producto se ha actualizado");
 		
 	}
 	
-	private static void imprimirVentas() {
-		System.out.println("\n**************VENTAS***********\n");
-		System.out.println("==================================\n");
-		System.out.println("Fecha \t Monto");
+	private static void reporteVentas() {
+		System.out.println("\nVentas\n**************************");
+		System.out.println("Fecha \t                         Monto");
+		
+		for(Venta venta: ventas) {
+			System.out.printf("%td de %tB %tY, %tH:%tM hrs \t %d\n"
+					, venta.getFecha()
+					, venta.getFecha()
+					, venta.getFecha()
+					, venta.getFecha()
+					, venta.getFecha()
+					, venta.calcularTotal());	
+		}
+		System.out.printf("%n%n\n");
 	}
 	
-	private static void pagar() {
-		
-		
-	}
-
 	private static int menu() {
 		System.out.println("MENU PUNTO DE VENTA\n==========================\n");
-		System.out.println("1. Crear Producto");
-		System.out.println("2. Ver Productos");
-		System.out.println("3. Eliminar Producto");
-		System.out.println("4. Agregar Productos al Carro");
-		System.out.println("5. Pagar");
-		System.out.println("6. Cargar productos iniciales");
-		System.out.println("7. SALIR");
+		System.out.println("1. Cargar productos iniciales");
+		System.out.println("2. Crear Producto");
+		System.out.println("3. Actualizar Productos");
+		System.out.println("4. Ver Productos");
+		System.out.println("5. Eliminar Producto");
+		System.out.println("6. Agregar Productos al Carro");
+		System.out.println("7. Reporte de Ventas");
+		System.out.println("8. SALIR");
 		
 		System.out.println("\nPor favor digite la opcion deseada: ");
 		Scanner scanner = new Scanner(System.in);
