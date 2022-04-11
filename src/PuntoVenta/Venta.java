@@ -2,7 +2,7 @@ package PuntoVenta;
 
 import java.util.ArrayList;
 import java.time.LocalDateTime;
-
+   
 public class Venta {
 
 	private LocalDateTime fecha = LocalDateTime.now();

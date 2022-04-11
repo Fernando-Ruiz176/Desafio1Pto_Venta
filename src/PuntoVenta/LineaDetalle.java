@@ -1,7 +1,7 @@
 package PuntoVenta;
-
+ 
 public class LineaDetalle {
-	
+  	
 	private int cantidad;
 	private Producto producto;
 	
@@ -32,5 +32,5 @@ public class LineaDetalle {
 	public void setProducto(Producto producto) {
 		this.producto = producto;
 	}
-
+	
 }
